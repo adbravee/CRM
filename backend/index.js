@@ -13,6 +13,7 @@ const { errorHandler, notFoundHandler } = require("./middleware/errorHandler");
 
 const app = express();
 const port = config.port;
+const host = "0.0.0.0";
 const frontendDist = path.join(__dirname, "../frontend/dist");
 
 app.disable("x-powered-by");
@@ -40,11 +41,21 @@ app.use(
 
 app.use(express.json({ limit: config.bodyLimit }));
 
+app.get("/", (_req, res) => {
+  res.json({
+    name: "Support CRM API",
+    health: "/health",
+    api: "/api/tickets",
+  });
+});
+
 app.get("/health", async (_req, res) => {
   try {
     await pool.query("SELECT 1");
     res.json({ ok: true, database: "connected" });
-  } catch {
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error("[health] DB check failed", err.message);
     res.status(503).json({ ok: false, database: "disconnected" });
   }
 });
@@ -66,7 +77,7 @@ if (config.isProduction && config.serveFrontend) {
 app.use(notFoundHandler);
 app.use(errorHandler);
 
-app.listen(port, () => {
+app.listen(port, host, () => {
   // eslint-disable-next-line no-console
-  console.log(`API running on http://localhost:${port}`);
+  console.log(`API running on http://${host}:${port} (PORT=${port})`);
 });
