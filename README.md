@@ -233,7 +233,3 @@ Open `http://localhost:3001`.
 - `npm run dev` - start Vite dev server
 - `npm run build` - create production build
 - `npm run preview` - preview production build
-
-## Interview Prep
-
-- A complete interview explainer is available at `docs/INTERVIEW_GUIDE.md`.
