@@ -8,8 +8,9 @@ It helps support teams create, track, and update tickets with searchable lists, 
 - Backend: Node.js, Express, better-sqlite3
 - Frontend: React (Vite), React Router, Axios
 - Styling: Tailwind CSS
-- Database: SQLite
-- Deployment: Render (backend), Vercel (frontend)
+- Database: **PostgreSQL (Supabase)** for production; SQLite removed from deploy path
+- Deployment (recommended): **Supabase + Railway + Vercel** — see `docs/DEPLOY_SUPABASE_RAILWAY.md`
+- Alternative: **Single app** (Fly.io + SQLite) — see `docs/DEPLOY_SINGLE.md`
 
 ## Folder Structure
 
@@ -183,7 +184,25 @@ Base URL: `http://localhost:3001/api`
 
 - Success response (`200`): updated ticket object including latest notes
 
-## Deployment
+## Deployment (recommended: Supabase + Railway + Vercel)
+
+See **`docs/DEPLOY_SUPABASE_RAILWAY.md`** for full step-by-step instructions (persistent free Postgres).
+
+## Deployment (alternative: single app + SQLite)
+
+See **`docs/DEPLOY_SINGLE.md`** for Fly.io steps (one URL, persistent SQLite on a volume).
+
+Quick local production test:
+
+```bash
+npm run install:all
+npm run build
+cd backend && NODE_ENV=production node index.js
+```
+
+Open `http://localhost:3001`.
+
+### Legacy: split deploy (optional)
 
 ### Backend to Render
 
